@@ -1,0 +1,13 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    compile project(":TriatlonService")
+    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
+
+}
+

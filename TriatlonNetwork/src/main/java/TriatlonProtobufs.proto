@@ -1,0 +1,80 @@
+syntax="proto3";
+package chat.protocol;
+
+option java_outer_classname = "TriatlonProtobufs";
+
+message ArbitruProto{
+  int64 id=1;
+  string username=2;
+  string password=3;
+  string name=4;
+}
+message ParticipantProto{
+  int64 id=1;
+  string firstName=2;
+  string lastName=3;
+}
+message ParticipantPointsDTOProto{
+  int64 id=1;
+  ParticipantProto participant=2;
+  float points=3;
+}
+message ProbaProto{
+  int64 id=1;
+  string discipline=2;
+  ArbitruProto arbitru=3;
+}
+message RezultatProto{
+  int64 id=1;
+  ProbaProto proba=2;
+  ParticipantProto participant=3;
+  float points=4;
+
+}
+message ID{
+  int64 id=1;
+}
+message DTOArbitruProto{
+  string username=1;
+  string password=2;
+}
+message DTORezultatProbaProto{
+  RezultatProto rezultat=1;
+  ProbaProto proba=2;
+
+}
+
+message TriatlonRequest{
+  enum Type{
+    Unknown = 0;
+    LOGIN = 1; LOGOUT = 2;
+    ADD_POINTS=3; GET_ALL_PARTICIPANTS=4;
+    PROBA_BY_ARBITRU=5; PARTICIPANTS_NOT_FROM_PROBA=6; PARTICIPANTS_FROM_PROBA=7;
+  }
+
+  Type type=1;
+  oneof data{
+    DTOArbitruProto arbitruDTO=2;
+    ProbaProto proba=3;
+    DTORezultatProbaProto rezultatProbaDTO=4;
+    ArbitruProto arbitru=5;
+    ID id=6;
+  }
+}
+
+message TriatlonResponse{
+  enum Type{
+    Unknown = 0;
+    OK = 1; ERROR = 2;
+    ADDED_POINTS=3;
+  }
+
+  Type type=1;
+
+  string error=2;
+  ArbitruProto arbitru=3;
+  repeated ParticipantPointsDTOProto participants=4;
+  ProbaProto proba=5;
+  repeated ParticipantProto participantsNotFromProba=6;
+  DTORezultatProbaProto rezultatProbaDTO=7;
+}
